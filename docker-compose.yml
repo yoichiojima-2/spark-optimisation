@@ -1,0 +1,12 @@
+services:
+  spark:
+    container_name: spark-optimiser
+    image: apache/spark-py:latest
+    command: /bin/bash
+    working_dir: /workspace
+    volumes:
+      - ${PWD}:/workspace
+    tty: true
+    ports:
+      - "8888:8888"  # Jupyter notebook port
+      - "4040:4040"  # Spark UI port

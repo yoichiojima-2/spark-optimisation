@@ -8,3 +8,9 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Pyspark stuff
+java_opts.txt
+
+# Claude
+.claude
