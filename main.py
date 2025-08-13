@@ -15,9 +15,10 @@ class Config:
         return self.config["version"]
 
     def read_config(self):
-        with open("pyproject.toml", "r") as f:
-            pyproject = tomllib.load(f)
-        return pyproject["project"]["version"]
+        with open("pyproject.toml", "rb") as f:
+            config = tomllib.load(f)
+            print(config)
+            return config["project"]
 
 
 def get_spark_session():
