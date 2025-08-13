@@ -1,0 +1,8 @@
+services:
+  spark:
+    container_name: spark-optimiser
+    build: .
+    working_dir: /home
+    volumes:
+      - ${PWD}:/home
+    tty: true
