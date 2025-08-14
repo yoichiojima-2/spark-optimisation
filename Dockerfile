@@ -1,12 +1,11 @@
 FROM python:latest
 
-
 # Set working directory
 WORKDIR /home
 
 # Install java
 RUN apt update && \
-    apt install -y openjdk-17-jdk && \
+    apt install -y default-jdk && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -16,12 +15,12 @@ RUN JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::") && \
     echo "PATH=${JAVA_HOME}/bin:${PATH}" >> /etc/environment
 
 # Source the environment file to set JAVA_HOME for subsequent RUN commands
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-RUN ln -sf $(readlink -f /usr/bin/java | sed "s:/bin/java::") /usr/lib/jvm/java-17-openjdk
+ENV JAVA_HOME=/usr/lib/jvm/default-java
+RUN ln -sf $(readlink -f /usr/bin/java | sed "s:/bin/java::") /usr/lib/jvm/default-java
 
-# Install python dependencies
-COPY pyproject.toml .
-COPY .python-version .
-RUN pip install --upgrade --root-user-action pip && \
-    pip install uv --root-user-action && \
-    uv sync
+# Install python application
+COPY . .
+RUN pip install --upgrade --root-user-action=ignore pip && \
+    pip install uv --root-user-action=ignore && \
+    uv sync && \
+    uv pip install -e .

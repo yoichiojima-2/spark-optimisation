@@ -1,5 +1,4 @@
-from main import main
-from main import Config
+from spark_optimisation import Config, main
 
 
 def test_config_reads_properties():
