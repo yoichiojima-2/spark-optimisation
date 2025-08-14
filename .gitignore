@@ -14,3 +14,6 @@ java_opts.txt
 
 # Claude
 .claude
+
+# Airflow
+logs/
