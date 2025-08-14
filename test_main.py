@@ -1,9 +1,8 @@
-import pytest
+from main import main
 from main import Config
 
 
 def test_config_reads_properties():
-    """Test that config can be created and properties work."""
     config = Config()
     assert isinstance(config.name, str)
     assert isinstance(config.version, str)
@@ -12,8 +11,13 @@ def test_config_reads_properties():
 
 
 def test_config_initialization():
-    """Test that Config initializes without errors."""
     config = Config()
-    assert config.config is not None
-    assert "name" in config.config
-    assert "version" in config.config
+    project_setting = config.pyproject["project"]
+    assert project_setting is not None
+    assert "name" in project_setting
+    assert "version" in project_setting
+
+
+def test_main():
+    main()
+    assert True
