@@ -12,10 +12,6 @@ up:
 
 down:
 	docker compose down
-	
-install:
-	uv sync
-	uv run pip install -e .
 
 tidy:
 	uv run isort .
