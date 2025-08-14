@@ -11,10 +11,10 @@ def test_config_reads_properties():
 
 def test_config_initialization():
     config = Config()
-    project_setting = config.pyproject["project"]
-    assert project_setting is not None
-    assert "name" in project_setting
-    assert "version" in project_setting
+    project_config = config.pyproject["project"]
+    assert project_config is not None
+    assert "name" in project_config
+    assert "version" in project_config
 
 
 def test_main():
