@@ -1,24 +1,21 @@
 import tomllib
+from functools import cached_property
 from pyspark.sql import SparkSession, functions as F
 
 
 class Config:
-    def __init__(self):
-        self.config = self.read_config()
-
     @property
     def name(self):
-        return self.config["name"]
+        return self.pyproject["project"]["name"]
 
     @property
     def version(self):
-        return self.config["version"]
+        return self.pyproject["project"]["version"]
 
-    def read_config(self):
+    @cached_property
+    def pyproject(self):
         with open("pyproject.toml", "rb") as f:
-            config = tomllib.load(f)
-            print(config)
-            return config["project"]
+            return tomllib.load(f)
 
 
 def get_spark_session():
