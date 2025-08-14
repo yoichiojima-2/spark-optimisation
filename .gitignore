@@ -17,3 +17,9 @@ java_opts.txt
 
 # Airflow
 logs/
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
