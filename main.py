@@ -1,23 +1,24 @@
 import tomllib
-from functools import cached_property
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, functions as F
 
 
 class Config:
-    @cached_property
-    def pyproject(self):
+    def __init__(self):
+        self.config = self.read_config()
+
+    @property
+    def name(self):
+        return self.config["name"]
+
+    @property
+    def version(self):
+        return self.config["version"]
+
+    def read_config(self):
         with open("pyproject.toml", "rb") as f:
             config = tomllib.load(f)
             print(config)
             return config["project"]
-
-    @property
-    def name(self):
-        return self.pyproject["name"]
-
-    @property
-    def version(self):
-        return self.pyproject["version"]
 
 
 def get_spark_session():
@@ -54,7 +55,6 @@ def main():
     df.agg({"age": "avg"}).show()
 
     print("\n6. Group by age ranges:")
-    from pyspark.sql import functions as F
 
     df.withColumn("age_group", F.when(F.col("age") < 30, "Under 30").otherwise("30 and over")).groupBy(
         "age_group"
