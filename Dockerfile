@@ -8,8 +8,6 @@ RUN apt update && \
     apt install -y default-jdk && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Set JAVA_HOME dynamically based on architecture
 RUN JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::") && \
     echo "JAVA_HOME=${JAVA_HOME}" >> /etc/environment && \
     echo "PATH=${JAVA_HOME}/bin:${PATH}" >> /etc/environment
