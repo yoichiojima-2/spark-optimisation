@@ -1,8 +1,8 @@
 run:
-	docker compose exec spark uv run python src/main.py
+	docker compose exec spark uv run python src/spark_optimisation/main.py
 
 test:
-	docker compose exec spark uv run pytest -vvv .
+	docker compose exec spark uv run pytest -vvv 
 
 build:
 	docker compose build

@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame
-from spark_optimisation import get_spark_session
+from spark_optimisation.lib import get_spark_session
 
 
 def read_parquet() -> DataFrame:
