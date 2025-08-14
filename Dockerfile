@@ -1,10 +1,10 @@
 FROM python:latest
 
 
-# set working directory
+# Set working directory
 WORKDIR /home
 
-# install java
+# Install java
 RUN apt update && \
     apt install -y openjdk-17-jdk && \
     apt clean && \
@@ -19,9 +19,9 @@ RUN JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::") && \
 ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 RUN ln -sf $(readlink -f /usr/bin/java | sed "s:/bin/java::") /usr/lib/jvm/java-17-openjdk
 
-# install python dependencies
+# Install python dependencies
 COPY pyproject.toml .
 COPY .python-version .
-RUN pip install --upgrade pip && \
-    pip install uv && \
+RUN pip install --upgrade --root-user-action pip && \
+    pip install uv --root-user-action && \
     uv sync

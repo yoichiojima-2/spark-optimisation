@@ -14,3 +14,15 @@ java_opts.txt
 
 # Claude
 .claude
+
+# Airflow
+logs/
+
+# MyPy
+.mypy_cache/
+
+# Ruff
+.ruff_cache/
+
+# Personal
+todo.md
