@@ -24,3 +24,9 @@ tidy:
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type d -name .mypy_cache -exec rm -rf {} +
 	find . -type d -name .ruff_cache -exec rm -rf {} +
+	find . -type d -name .pytest_cache -exec rm -rf {} +
+	find . -type d -name .venv -exec rm -rf {} +
+	find . -type d -name build -exec rm -rf {} +
+	find . -type d -name logs -exec rm -rf {} +
+	find . -type f -name uv.lock -exec rm -f {} +
+
