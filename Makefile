@@ -7,6 +7,9 @@ test:
 mock:
 	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/write_mock.py
 
+nyc-taxi:
+	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/write_nyc_taxi.py
+
 build-container:
 	docker compose build
 
