@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pyspark>=4.0.0",
+    "requests>=2.32.4",
+    "tqdm>=4.67.1",
 ]
 
 [dependency-groups]
