@@ -30,3 +30,6 @@ todo.md
 
 # Artifacts
 artifacts/
+
+# Pytest
+*.pytest_cache/
