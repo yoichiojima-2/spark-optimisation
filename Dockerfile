@@ -18,4 +18,5 @@ RUN ln -sf $(readlink -f /usr/bin/java | sed "s:/bin/java::") /usr/lib/jvm/defau
 COPY . .
 RUN pip install --upgrade --root-user-action=ignore pip && \
     pip install --root-user-action=ignore uv && \
+    uv venv && \
     uv pip install .
