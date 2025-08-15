@@ -19,12 +19,5 @@ dev = [
 [tool.ruff]
 line-length = 127
 
-[tool.uv.workspace]
-members = [
-    ".",
-    ".",
-    ".",
-]
-
 [tool.uv.sources]
 spark-optimisation = { workspace = true }

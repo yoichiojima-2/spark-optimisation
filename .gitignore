@@ -9,6 +9,7 @@ wheels/
 # Virtual environments
 .venv
 
+# Project
 # Pyspark stuff
 java_opts.txt
 
@@ -26,3 +27,6 @@ logs/
 
 # Personal
 todo.md
+
+# Artifacts
+artifacts/

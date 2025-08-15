@@ -1,6 +1,7 @@
 import tomllib
 from functools import cached_property
-from pyspark.sql import DataFrame, SparkSession
+
+from pyspark.sql import SparkSession
 
 
 class Config:
@@ -21,14 +22,3 @@ class Config:
 def get_spark_session():
     config = Config()
     return SparkSession.builder.appName(config.name).getOrCreate()
-
-
-def mock_df() -> DataFrame:
-    data = [
-        ("user-id-1", "2025", "01", "01"),
-        ("user-id-2", "2025", "02", "01"),
-        ("user-id-3", "2025", "03", "01"),
-        ("user-id-4", "2025", "04", "01"),
-    ]
-    columns = ["id", "y", "m", "d"]
-    return get_spark_session().createDataFrame(data, columns)

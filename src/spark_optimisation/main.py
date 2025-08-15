@@ -1,17 +1,16 @@
 from pyspark.sql import DataFrame
+
 from spark_optimisation.lib import get_spark_session
 
 
 def read_parquet() -> DataFrame:
-    path = "./artifacts/mock"
-    get_spark_session().read.parquet(path)
-    return
+    path = "./artifacts/mock-1"
+    return get_spark_session().read.parquet(path)
 
 
 def main():
-    ...
-    # start_date, end_date = date(2025, 2, 1), date(2025, 3, 31)
-    # date_col = F.to_date(F.concat_ws("-", F.col("y"), F.col("m"), F.col("d"))).alias("date")
+    df = read_parquet()
+    df.show()
 
 
 if __name__ == "__main__":

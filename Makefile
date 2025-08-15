@@ -4,7 +4,10 @@ run:
 test:
 	docker compose exec spark uv run pytest -vvv 
 
-build:
+mock:
+	docker compose exec spark uv run python bin/write_mock.py
+
+build-container:
 	docker compose build
 
 up:
