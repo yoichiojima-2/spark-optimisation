@@ -2,11 +2,11 @@ from datetime import date
 
 from pyspark.sql import functions as F
 
-from . import taxi
+from .taxi import raw
 
 
 def main():
-    df = taxi.read(date(2024, 1, 1))
+    df = raw.read(date(2024, 1, 1))
     df.printSchema()
     df.show(5)
     keys = ["tpep_pickup_date"]
