@@ -27,10 +27,10 @@ def download(target_date: date):
     print(f"donwloaded taxi data.: {path}")
 
 
-def write(start_date: date, end_date: date):
+def downloads(start_date: date, end_date: date):
     with Pool() as pool:
         pool.map(download, end_of_months_between(start_date, end_date))
 
 
 if __name__ == "__main__":
-    write(START_DATE, END_DATE)
+    downloads(START_DATE, END_DATE)
