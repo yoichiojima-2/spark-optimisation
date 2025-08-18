@@ -20,10 +20,11 @@ def fetch(target_date: date):
 
 
 def download(target_date: date):
-    print(f"donwloading taxi data...: {target_date}")
+    path = filepath(target_date)
+    print(f"donwloading taxi data...: {path}")
     content = fetch(target_date).content
-    filepath(target_date).write_bytes(content)
-    print(f"donwloaded taxi data.: {target_date}")
+    path.write_bytes(content)
+    print(f"donwloaded taxi data.: {path}")
 
 
 def write(start_date: date, end_date: date):
