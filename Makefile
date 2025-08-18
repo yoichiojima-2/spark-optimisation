@@ -4,11 +4,14 @@ run:
 test:
 	docker compose exec -e PYTHONPATH=/home/src spark uv run pytest -vvv 
 
+ipython:
+	docker compose exec -e PYTHONPATH=/home/src spark uv run ipython
+
 mock:
 	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/write_mock.py
 
-nyc-taxi:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/write_nyc_taxi.py
+taxi:
+	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/download_taxi.py
 
 build-container:
 	docker compose build

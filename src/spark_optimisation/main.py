@@ -1,11 +1,16 @@
-from spark_optimisation.lib import get_spark_session
+from datetime import date
+
+from pyspark.sql import functions as F
+
+from . import taxi
 
 
 def main():
-    path = "./artifacts/mock-1"
-    df = get_spark_session().read.parquet(path)
-    keys = ["y", "m"]
-    (df.groupBy(*keys).count().sort(*keys).show())
+    df = taxi.read(date(2024, 1, 1))
+    df.printSchema()
+    df.show(5)
+    keys = ["tpep_pickup_date"]
+    df.withColumn("tpep_pickup_date", F.to_date(F.col("tpep_pickup_datetime"))).groupBy(*keys).count().sort(*keys).show(50)
 
 
 if __name__ == "__main__":

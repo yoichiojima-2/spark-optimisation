@@ -13,6 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "ipython>=9.4.0",
     "isort>=6.0.1",
     "pytest>=8.4.1",
     "ruff>=0.12.8",

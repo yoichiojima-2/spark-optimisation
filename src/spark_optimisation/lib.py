@@ -1,8 +1,8 @@
 import tomllib
 from datetime import date
-from dateutil.relativedelta import relativedelta
 from functools import cached_property
 
+from dateutil.relativedelta import relativedelta
 from pyspark.sql import SparkSession
 
 
@@ -27,7 +27,7 @@ def get_spark_session():
 
 
 def all_dates_between(start_date: date, end_date) -> list[date]:
-    return [start_date - relativedelta(days=i) for i in range((end_date - start_date).days + 1)]
+    return [start_date + relativedelta(days=i) for i in range((end_date - start_date).days + 1)]
 
 
 def is_end_of_month(dt: date) -> bool:
