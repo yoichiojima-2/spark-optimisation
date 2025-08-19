@@ -1,17 +1,19 @@
+UV_RUN = docker compose exec -e PYTHONPATH=/home/src spark uv run
+
 run:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run python -m spark_optimisation.main
+	${UV_RUN} python -m spark_optimisation.main
 
 test:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run pytest -vvv 
+	${UV_RUN} pytest -vvv
 
 ipython:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run ipython
+	${UV_RUN} ipython
 
 mock:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/write_mock.py
+	${UV_RUN} python bin/write_mock.py
 
 taxi:
-	docker compose exec -e PYTHONPATH=/home/src spark uv run python bin/download_taxi.py
+	${UV_RUN} python bin/make_taxi.py
 
 build-container:
 	docker compose build
