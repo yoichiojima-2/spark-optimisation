@@ -3,7 +3,19 @@ from datetime import date
 from airflow.sdk import dag, task_group
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
-from spark_optimisation.lib import end_of_months_between
+from dateutil.relativedelta import relativedelta
+
+
+def all_dates_between(start_date: date, end_date) -> list[date]:
+    return [start_date + relativedelta(days=i) for i in range((end_date - start_date).days + 1)]
+
+
+def is_end_of_month(dt: date) -> bool:
+    return dt == dt + relativedelta(months=1, day=1, days=-1)
+
+
+def end_of_months_between(start_date: date, end_date: date) -> list[date]:
+    return [dt for dt in all_dates_between(start_date, end_date) if is_end_of_month(dt)]
 
 
 @dag()
@@ -12,7 +24,7 @@ def taxi():
     end_date = date(2024, 12, 31)
 
     @task_group
-    def download():
+    def download_group():
         for d in end_of_months_between(start_date, end_date):
             DockerOperator(
                 task_id=f'download_{d}',
@@ -21,12 +33,12 @@ def taxi():
                 working_dir='/app',
                 network_mode='spark-optimisation_spark-airflow',
                 mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
-                auto_remove=True,
+                auto_remove='success',
                 docker_url='unix://var/run/docker.sock',
             )
 
     @task_group
-    def cleanse():
+    def cleanse_group():
         for d in end_of_months_between(start_date, end_date):
             DockerOperator(
                 task_id=f'cleanse_{d}',
@@ -35,11 +47,11 @@ def taxi():
                 working_dir='/app',
                 network_mode='spark-optimisation_spark-airflow',
                 mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
-                auto_remove=True,
+                auto_remove='success',
                 docker_url='unix://var/run/docker.sock',
             )
 
-    download() >> cleanse()
+    download_group() >> cleanse_group()
 
 
 taxi()

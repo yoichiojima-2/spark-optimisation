@@ -5,7 +5,7 @@ from spark_optimisation.taxi import raw
 
 
 def path():
-    p = Path("artifacts/taxi/cleaned")
+    p = Path("artifacts/taxi/cleansed")
     p.mkdir(parents=True, exist_ok=True)
     return p
 

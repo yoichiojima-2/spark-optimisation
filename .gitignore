@@ -33,3 +33,6 @@ artifacts/
 
 # Pytest
 *.pytest_cache/
+
+# misc
+.Trash-0/

@@ -13,6 +13,7 @@ x-airflow-common: &airflow-common
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-apache-airflow-providers-docker}
     AIRFLOW_CONFIG: "/opt/airflow/config/airflow.cfg"
+    PYTHONPATH: "/opt/airflow/spark-app/src"
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
@@ -33,7 +34,6 @@ networks:
 
 services:
   spark:
-    container_name: spark-container
     build: .
     working_dir: /app
     volumes:
