@@ -10,11 +10,11 @@ def taxi():
 
     @task.bash
     def download():
-        return f"docker-compose run spark 'uv run python -m spark_optimisation.taxi.raw --start-date {start_date} --end-date {end_date}'"
+        return f"cd /app && uv run python -m spark_optimisation.taxi.raw --start-date {start_date} --end-date {end_date}"
 
     @task.bash
     def cleanse():
-        return f"docker-compose run spark 'uv run python -m spark_optimisation.taxi.cleanse --start-date {start_date} --end-date {end_date}'"
+        return f"cd /app && uv run python -m spark_optimisation.taxi.cleanse --start-date {start_date} --end-date {end_date}"
 
     download() >> cleanse()
 
