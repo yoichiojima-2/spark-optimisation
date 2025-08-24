@@ -15,6 +15,7 @@ dependencies = [
 dev = [
     "ipython>=9.4.0",
     "isort>=6.0.1",
+    "jupyterlab>=4.4.6",
     "pytest>=8.4.1",
     "ruff>=0.12.8",
     "spark-optimisation",

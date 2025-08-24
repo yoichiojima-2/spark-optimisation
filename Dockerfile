@@ -1,7 +1,7 @@
 FROM python:latest
 
 # Set working directory
-WORKDIR /home
+WORKDIR /app
 
 # Install java
 RUN apt update && \

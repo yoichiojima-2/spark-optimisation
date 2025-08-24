@@ -28,10 +28,20 @@ x-airflow-common: &airflow-common
 services:
   spark:
     build: .
-    working_dir: /home
+    working_dir: /app
     volumes:
-      - ${PWD}:/home
+      - ${PWD}:/app
     tty: true
+
+  lab:
+    build: .
+    working_dir: /app
+    volumes:
+      - ${PWD}:/app
+    tty: true
+    ports:
+      - "8888:8888"
+    command: uv run jupyter lab --port 8888 --allow-root
 
   postgres:
     image: postgres:13
