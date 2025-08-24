@@ -1,4 +1,4 @@
-UV_RUN = docker compose exec -e PYTHONPATH=/home/src spark uv run
+UV_RUN = docker compose exec spark uv run
 
 run:
 	${UV_RUN} python -m spark_optimisation.main
@@ -37,5 +37,6 @@ tidy:
 	find . -type d -name build -exec rm -rf {} +
 	find . -type d -name logs -exec rm -rf {} +
 	find . -type d -name *.egg-info -exec rm -rf {} +
+	find . -type d -name .ipynb_checkpoints -exec rm -rf {} +
 	find . -type f -name uv.lock -exec rm -f {} +
 

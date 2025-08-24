@@ -42,3 +42,10 @@ def read(target_date: date):
     spark = get_spark_session()
     path = filepath(target_date)
     return spark.read.parquet(str(path))
+
+
+if __name__ == "__main__":
+    from spark_optimisation.taxi.cli import parse_args
+
+    args = parse_args()
+    downloads(args.start_date, args.end_date)

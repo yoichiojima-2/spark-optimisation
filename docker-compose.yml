@@ -31,6 +31,8 @@ services:
     working_dir: /app
     volumes:
       - ${PWD}:/app
+    environment:
+      - PYTHONPATH=/app/src
     tty: true
 
   lab:
@@ -41,7 +43,9 @@ services:
     tty: true
     ports:
       - "8888:8888"
-    command: uv run jupyter lab --port 8888 --allow-root
+    environment:
+      - PYTHONPATH=/app/src
+    command: uv run jupyter lab --port 8888 --allow-root --ip=0.0.0.0 --no-browser --NotebookApp.token=''
 
   postgres:
     image: postgres:13
@@ -135,6 +139,7 @@ services:
     environment:
       <<: *airflow-common-env
       DUMB_INIT_SETSID: "0"
+      AIRFLOW__LOGGING__WORKER_LOG_SERVER_HOST: "airflow-worker"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
