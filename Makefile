@@ -1,34 +1,38 @@
-UV_RUN = docker compose exec spark uv run
+UV = docker compose exec spark uv
+DOCKER = docker
+NPX = npx
+
+.PHONY: install run test ipython mock taxi build-container up down tidy
 
 run:
-	${UV_RUN} python -m spark_optimisation.main
+	${UV} run python -m spark_optimisation.main
 
 test:
-	${UV_RUN} pytest -vvv
+	${UV} run pytest -vvv
 
 ipython:
-	${UV_RUN} ipython
+	${UV} run ipython
 
 mock:
-	${UV_RUN} python bin/write_mock.py
+	${UV} run python bin/write_mock.py
 
 taxi:
-	${UV_RUN} python bin/make_taxi.py
+	${UV} run python bin/make_taxi.py
 
 build-container:
-	docker compose build
+	${DOCKER} compose build
 
 up:
-	docker compose up -d
+	${DOCKER} compose up -d
 
 down:
-	docker compose down
+	${DOCKER} compose down
 
 tidy:
-	uv run isort .
-	uv run ruff format .
-	uv run ruff check --fix .
-	npx prettier --write .
+	${UV} run isort .
+	${UV} run ruff format .
+	${UV} run ruff check --fix .
+	${NPX} prettier --write .
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type d -name .mypy_cache -exec rm -rf {} +
 	find . -type d -name .ruff_cache -exec rm -rf {} +

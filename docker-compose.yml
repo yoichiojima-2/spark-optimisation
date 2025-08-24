@@ -11,13 +11,15 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__LOAD_EXAMPLES: "true"
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: "http://airflow-apiserver:8080/execution/"
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
-    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-apache-airflow-providers-docker}
     AIRFLOW_CONFIG: "/opt/airflow/config/airflow.cfg"
   volumes:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ${PWD}:/opt/airflow/spark-app
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on: &airflow-common-depends-on
     redis:
@@ -25,8 +27,13 @@ x-airflow-common: &airflow-common
     postgres:
       condition: service_healthy
 
+networks:
+  spark-airflow:
+    driver: bridge
+
 services:
   spark:
+    container_name: spark-container
     build: .
     working_dir: /app
     volumes:
@@ -34,8 +41,10 @@ services:
     environment:
       - PYTHONPATH=/app/src
     tty: true
+    networks:
+      - spark-airflow
 
-  lab:
+  jupyter:
     build: .
     working_dir: /app
     volumes:
@@ -61,6 +70,8 @@ services:
       retries: 5
       start_period: 5s
     restart: always
+    networks:
+      - spark-airflow
 
   redis:
     image: redis:7.2-bookworm
@@ -73,6 +84,8 @@ services:
       retries: 50
       start_period: 30s
     restart: always
+    networks:
+      - spark-airflow
 
   airflow-apiserver:
     <<: *airflow-common
@@ -86,6 +99,8 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    networks:
+      - spark-airflow
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -101,6 +116,8 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    networks:
+      - spark-airflow
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
@@ -141,6 +158,8 @@ services:
       DUMB_INIT_SETSID: "0"
       AIRFLOW__LOGGING__WORKER_LOG_SERVER_HOST: "airflow-worker"
     restart: always
+    networks:
+      - spark-airflow
     depends_on:
       <<: *airflow-common-depends-on
       airflow-apiserver:

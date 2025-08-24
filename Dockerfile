@@ -11,6 +11,7 @@ RUN apt update && \
     JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::") && \
     echo "JAVA_HOME=${JAVA_HOME}" >> /etc/environment && \
     echo "PATH=${JAVA_HOME}/bin:${PATH}" >> /etc/environment
+
 ENV JAVA_HOME=/usr/lib/jvm/default-java
 RUN ln -sf $(readlink -f /usr/bin/java | sed "s:/bin/java::") /usr/lib/jvm/default-java
 
