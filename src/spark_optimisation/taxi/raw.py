@@ -45,7 +45,10 @@ def read(target_date: date):
 
 
 if __name__ == "__main__":
+    print("downloading taxi data...")
     from spark_optimisation.taxi.cli import parse_args
 
     args = parse_args()
     downloads(args.start_date, args.end_date)
+
+    print("done: downloading taxi data")

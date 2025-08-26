@@ -21,7 +21,10 @@ def cleanses(start_date: date, end_date: date):
 
 
 if __name__ == "__main__":
+    print("cleansing taxi data...")
     from spark_optimisation.taxi.cli import parse_args
 
     args = parse_args()
     cleanses(args.start_date, args.end_date)
+
+    print("done: cleansing taxi data")

@@ -20,4 +20,4 @@ COPY . .
 RUN pip install --upgrade --root-user-action=ignore pip && \
     pip install --root-user-action=ignore uv && \
     uv venv && \
-    uv pip install .
+    uv pip install -e .

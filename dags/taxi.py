@@ -1,7 +1,7 @@
 from datetime import date
 
 from airflow.providers.docker.operators.docker import DockerOperator
-from airflow.sdk import dag, task_group
+from airflow.sdk import dag
 from dateutil.relativedelta import relativedelta
 from docker.types import Mount
 
@@ -20,44 +20,37 @@ def end_of_months_between(start_date: date, end_date: date) -> list[date]:
 
 @dag()
 def taxi():
-    start_date = date(2024, 1, 1)
+    start_date = date(2023, 1, 1)
     end_date = date(2024, 12, 31)
 
-    @task_group
-    def download():
-        for d in end_of_months_between(start_date, end_date):
-            DockerOperator(
-                task_id=f"download_{d}",
-                image="spark-optimisation-spark:latest",
-                command=f"uv run python -m spark_optimisation.taxi.raw --start-date {d} --end-date {d}",
-                working_dir="/app",
-                network_mode="spark-optimisation_spark-airflow",
-                mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
-                auto_remove="success",
-                docker_url="unix://var/run/docker.sock",
-                environment={"PYTHONPATH": "/app/src"},
-                mount_tmp_dir=False,
-            )
+    for d in end_of_months_between(start_date, end_date):
+        download = DockerOperator(
+            task_id=f"download_{d}",
+            image="spark-optimisation-spark:latest",
+            command=f"uv run python -m spark_optimisation.taxi.raw --start-date {d} --end-date {d}",
+            working_dir="/app",
+            network_mode="spark-optimisation_spark-airflow",
+            mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
+            auto_remove="success",
+            docker_url="unix://var/run/docker.sock",
+            environment={"PYTHONPATH": "/app/src:/app"},
+            retries=3,
+        )
 
-    @task_group
-    def cleanse():
-        for d in end_of_months_between(start_date, end_date):
-            DockerOperator(
-                task_id=f"cleanse_{d}",
-                image="spark-optimisation-spark:latest",
-                command=f"uv run python -m spark_optimisation.taxi.cleanse --start-date {d} --end-date {d}",
-                working_dir="/app",
-                network_mode="spark-optimisation_spark-airflow",
-                mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
-                auto_remove="success",
-                docker_url="unix://var/run/docker.sock",
-                environment={"PYTHONPATH": "/app/src"},
-                mount_tmp_dir=False,
-            )
+        cleanse = DockerOperator(
+            task_id=f"cleanse_{d}",
+            image="spark-optimisation-spark:latest",
+            command=f"uv run python -m spark_optimisation.taxi.cleanse --start-date {d} --end-date {d}",
+            working_dir="/app",
+            network_mode="spark-optimisation_spark-airflow",
+            mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
+            auto_remove="success",
+            docker_url="unix://var/run/docker.sock",
+            environment={"PYTHONPATH": "/app/src:/app"},
+            retries=3,
+        )
 
-    download_tasks = download()
-    cleanse_tasks = cleanse()
-    download_tasks >> cleanse_tasks
+        download >> cleanse
 
 
 taxi()
