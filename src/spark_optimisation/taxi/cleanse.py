@@ -12,7 +12,7 @@ def path():
 
 def cleanse(target_date: date):
     df = raw.read(target_date)
-    df.write.parquet(str(path() / f"{target_date.strftime('y=%Y/m=%m')}"))
+    df.write.parquet(str(path() / f"{target_date.strftime('y=%Y/m=%m')}"), mode="overwrite")
 
 
 def cleanses(start_date: date, end_date: date):

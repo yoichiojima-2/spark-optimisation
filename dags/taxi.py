@@ -18,7 +18,9 @@ def end_of_months_between(start_date: date, end_date: date) -> list[date]:
     return [dt for dt in all_dates_between(start_date, end_date) if is_end_of_month(dt)]
 
 
-@dag()
+@dag(
+    max_active_runs=1,
+)
 def taxi():
     start_date = date(2023, 1, 1)
     end_date = date(2024, 12, 31)
