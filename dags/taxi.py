@@ -26,18 +26,18 @@ def taxi():
     end_date = date(2024, 12, 31)
 
     for d in end_of_months_between(start_date, end_date):
-        download = DockerOperator(
-            task_id=f"download_{d}",
-            image="spark-optimisation-spark:latest",
-            command=f"uv run python -m spark_optimisation.taxi.raw --start-date {d} --end-date {d}",
-            working_dir="/app",
-            network_mode="spark-optimisation_spark-airflow",
-            mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
-            auto_remove="success",
-            docker_url="unix://var/run/docker.sock",
-            environment={"PYTHONPATH": "/app/src:/app"},
-            retries=3,
-        )
+        # download = DockerOperator(
+        #     task_id=f"download_{d}",
+        #     image="spark-optimisation-spark:latest",
+        #     command=f"uv run python -m spark_optimisation.taxi.raw --start-date {d} --end-date {d}",
+        #     working_dir="/app",
+        #     network_mode="spark-optimisation_spark-airflow",
+        #     mounts=[Mount(source="/Users/yo/Developer/repo/spark-optimisation", target="/app", type="bind")],
+        #     auto_remove="success",
+        #     docker_url="unix://var/run/docker.sock",
+        #     environment={"PYTHONPATH": "/app/src:/app"},
+        #     retries=3,
+        # )
 
         cleanse = DockerOperator(
             task_id=f"cleanse_{d}",
@@ -52,7 +52,7 @@ def taxi():
             retries=3,
         )
 
-        download >> cleanse
+        cleanse
 
 
 taxi()
