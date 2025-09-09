@@ -3,8 +3,9 @@ from multiprocessing import Pool
 from pathlib import Path
 
 import requests
+from shardate.dates import eoms_between
 
-from spark_optimisation.lib import end_of_months_between, get_spark_session
+from spark_optimisation.lib import get_spark_session
 
 
 def filename(target_date: date) -> str:
@@ -35,7 +36,7 @@ def download(target_date: date):
 
 def downloads(start_date: date, end_date: date):
     with Pool() as pool:
-        pool.map(download, end_of_months_between(start_date, end_date))
+        pool.map(download, eoms_between(start_date, end_date))
 
 
 def read(target_date: date):
