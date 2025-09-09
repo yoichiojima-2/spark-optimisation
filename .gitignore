@@ -36,3 +36,4 @@ artifacts/
 
 # misc
 .Trash-0/
+uv.lock
