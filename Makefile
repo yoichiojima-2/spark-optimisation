@@ -2,7 +2,7 @@ UV = docker compose exec spark uv
 DOCKER = docker
 NPX = npx
 
-.PHONY: install run test ipython mock taxi build-container up down tidy clean
+.PHONY: run test ipython build-container up down restart tidy clean
 
 run:
 	${UV} run python -m spark_optimisation.main
@@ -12,12 +12,6 @@ test:
 
 ipython:
 	${UV} run ipython
-
-mock:
-	${UV} run python bin/write_mock.py
-
-taxi:
-	${UV} run python bin/make_taxi.py
 
 build-container:
 	${DOCKER} compose build

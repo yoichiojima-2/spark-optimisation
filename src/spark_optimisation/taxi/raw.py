@@ -27,11 +27,11 @@ def fetch(target_date: date):
 
 def download(target_date: date):
     path = filepath(target_date)
-    print(f"donwloading taxi data...: {path}")
+    print(f"downloading taxi data...: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     content = fetch(target_date).content
     path.write_bytes(content)
-    print(f"donwloaded taxi data.: {path}")
+    print(f"downloaded taxi data.: {path}")
 
 
 def downloads(start_date: date, end_date: date):

@@ -2,6 +2,7 @@ from datetime import date
 from pathlib import Path
 
 from pyspark.sql.types import StructType, StructField, IntegerType, TimestampNTZType, LongType, DoubleType, StringType
+from shardate.dates import eoms_between
 
 from spark_optimisation.taxi import raw
 
@@ -48,7 +49,7 @@ def cleanse(target_date: date):
 
 
 def cleanses(start_date: date, end_date: date):
-    for dt in raw.end_of_months_between(start_date, end_date):
+    for dt in eoms_between(start_date, end_date):
         cleanse(dt)
 
 

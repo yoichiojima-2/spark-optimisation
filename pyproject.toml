@@ -1,7 +1,7 @@
 [project]
 name = "spark-optimisation"
 version = "0.1.0"
-description = "Add your description here"
+description = "Experiments around Spark job optimisation, starting from an NYC taxi data ingestion pipeline"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
